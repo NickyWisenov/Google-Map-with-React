@@ -1,0 +1,5 @@
+Implement the search bar functionality to search your map markers. ((TO DO))
+Implement a list view of the identified locations. ((TO DO))
+Add additional functionality using third-party APIs when a map marker, search result, 
+or list view entry is clicked (ex. Yelp reviews, Wikipedia, StreetView/Flickr images, etc). 
+If you need a refresher on making AJAX requests to third-party servers, check out our Intro to AJAX course. ((TO DO))
