@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
+    "material-ui-search-bar": "^0.4.2",
     "react": "^16.5.2",
     "react-bootstrap": "^0.32.4",
     "react-burger-menu": "^2.5.4",
