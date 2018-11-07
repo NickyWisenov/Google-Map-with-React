@@ -72,11 +72,19 @@ html, body {
 
 input[type=text] {
 	width: 80%;
-    border: 1px solid;
-    padding: 10px;
-    padding-left: 40px;
-    background-color: white;
-    background-position: 10px 10px; 
+  border: 1px solid;
+  padding: 10px;
+  padding-left: 40px;
+  background-color: white;
+  background-position: 10px 10px; 
 	background-repeat: no-repeat;
 	background-image: url('/img/searchicon.png');
+}
+
+.img-div {
+  position: absolute;
+  bottom: 0px;
+  background: white;
+  padding: 10px;
+  left: 38%;
 }

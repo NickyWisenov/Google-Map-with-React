@@ -14,6 +14,8 @@ class App extends Component {
 		sideDrawerOpen: false,
 		items: [],
 		markers: [],
+		imgdata: null,
+		opacity: 0
 	}
 	
 	componentDidMount() {
@@ -69,7 +71,6 @@ class App extends Component {
 	}
 
 	initMarkers = (items) => {
-		console.log(items);
 		var markers = [];
 
 		for (var i = 0; i < this.state.markers.length; i++) {
@@ -128,6 +129,29 @@ class App extends Component {
 		this.setState({items: updatedList}, this.initMarkers(updatedList));
 	}
 
+	itemClickHandler = (event) => {
+		var lng = event.target.getAttribute('data-lng');
+		var lat = event.target.getAttribute('data-lat');
+
+		axios
+			.get(
+			  'https://maps.googleapis.com/maps/api/streetview?size=600x300&location=' + lat + ',' + lng + '&heading=151.78&pitch=-0.76&key=AIzaSyBI4BeN8U277dOF689OezKrM27tYlGu0Zk',
+			  { responseType: 'arraybuffer' },
+			)
+			.then(response => {
+			  const base64 = btoa(
+				new Uint8Array(response.data).reduce(
+				  (data, byte) => data + String.fromCharCode(byte),
+				  '',
+				),
+			  );
+			  this.setState({ 
+				  imgdata: "data:;base64," + base64,
+				  opacity: 1
+				});
+			});
+	}
+
 	render() {
 		// let backDrop;
 		// if (this.state.sideDrawerOpen){
@@ -143,13 +167,16 @@ class App extends Component {
 				:
 				<div className="backdrop">
 					<input type="text" id="autocomplete" placeholder="Search Restauraunt" onChange={this.filterList}/>
-					<List items={this.state.items} />
+					<List items={this.state.items} itemClickHandler={this.itemClickHandler}/>
 				</div>
 			}
 
 			<main style={{marginTop: '64px'}}>
 				<div id="map"></div>
 			</main>
+			<div className="img-div" style={{opacity: this.state.opacity}}>
+				<img id="target" src={this.state.imgdata} />
+			</div>
 		</div>
 		)
 	}

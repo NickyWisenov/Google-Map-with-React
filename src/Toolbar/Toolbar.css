@@ -1,11 +1,12 @@
 .toolbar {
-	position: absolute;
+	position: fixed;
 	width: 100%;
 	background: black;
 	height: 64px;
 	top: 0px;
 	left: 0px;
 	padding: 20px 10px 10px 20px;
+	z-index: 9999;
 }
 
 .toolbar__logo {
