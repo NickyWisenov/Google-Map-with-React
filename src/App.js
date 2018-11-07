@@ -7,14 +7,13 @@ import SideDrawer from './Drawer/SideDrawer.js'
 // import BackDrop from './Drawer/BackDrop.js'
 import List from './Drawer/List'
 
-const map = null;
-
 class App extends Component {
 	
 	state = {
 		venues: null,
 		sideDrawerOpen: false,
-		items: []
+		items: [],
+		markers: [],
 	}
 	
 	componentDidMount() {
@@ -25,10 +24,6 @@ class App extends Component {
 		this.setState((prevState) => {
 			return {sideDrawerOpen: !prevState.sideDrawerOpen};
 		})
-	}
-
-	backdropHandler = () => {
-		// this.setState({sideDrawerOpen: false});
 	}
 
 	renderMap = () =>  {
@@ -60,33 +55,55 @@ class App extends Component {
 
 	initMap = () =>  {
 		//Map
+
         this.map = new window.google.maps.Map(document.getElementById('map'), {
 			center: {lat: 22.4629461, lng: 88.39675360000001},
 			zoom: 12
 		})
 
+		this.initMarkers(this.state.items);
+
+		// Search Box
+		// this.searchBox = new window.google.maps.places.Autocomplete(document.getElementById('autocomplete'));
+		// this.searchBox.addListener('place_changed', this.handlePlaceSelect);
+	}
+
+	initMarkers = (items) => {
+		console.log(items);
+		var markers = [];
+
+		for (var i = 0; i < this.state.markers.length; i++) {
+			this.state.markers[i].setMap(null);
+		}
+		this.setState({
+			markers: markers
+		});
+
 		//Infowindow
 		var infowindow = new window.google.maps.InfoWindow();
 		//Display Markers
-		this.state.venues.map(myVenue => {
+		items.map(myVenue => {
 			var contentString = `${myVenue.venue.name}`
-	
 			//Marker
 			var marker = new window.google.maps.Marker({
 				position: {lat: myVenue.venue.location.lat , lng: myVenue.venue.location.lng},
 				map: this.map,
 				title: myVenue.venue.name			
-			})
+			});
 			//Marker on click
 			marker.addListener('click', function() {
 				infowindow.setContent(contentString)
 				infowindow.open(this.map, marker)
-			})
+			});
+
+			markers.push(marker);
 		});
 
-		// Search Box
-		// this.searchBox = new window.google.maps.places.Autocomplete(document.getElementById('autocomplete'));
-		// this.searchBox.addListener('place_changed', this.handlePlaceSelect);
+		this.setState({
+			markers: markers
+		});
+
+		
 
 	}
 
@@ -108,10 +125,8 @@ class App extends Component {
 		  return item.venue.name.toLowerCase().search(
 			event.target.value.toLowerCase()) !== -1;
 		});
-		this.setState({items: updatedList});
+		this.setState({items: updatedList}, this.initMarkers(updatedList));
 	}
-
-
 
 	render() {
 		// let backDrop;
