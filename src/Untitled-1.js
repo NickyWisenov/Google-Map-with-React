@@ -113,7 +113,7 @@ class App extends Component {
 				this.itemClickHandler(marker, true);
 			});
 
-			markers.push(marker);
+			this.state.markers.push(marker);
 		});
 
 		window.google.maps.event.addListener(infowindow, 'closeclick', () => {
@@ -122,9 +122,6 @@ class App extends Component {
 			})
 		});
 
-		this.setState({
-			markers: markers
-		})
 
 	}
 
